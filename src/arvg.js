@@ -1,18 +1,43 @@
 const getAppOptions = (argv) => {
 
+    const { error, config, input, output } = getParams(argv)
+    if (error) return { error }
+
+    const { configError } = validateConfig(config)
+    if (configError) return { error: { configError }}
+     
+    return { config, input, output }
+}
+
+const getParams = (argv) => {
+
     if (argv.length < 3) return { error: 'No params provided!'}
 
-    console.log(argv);
+    const opt = argv.slice(2)
 
-    const { config, configError } = validateConfig(argv[3])
-    const input = './hello.txt'
-    const otput = './123.txt'
+    let config = undefined
+    let input = undefined
+    let output = undefined
 
-    if (configError) {
-        return { error: { configError }}
+    for (let i = 0; i < opt.length; i++) {
+        if(opt[i] === '-c') {
+            const restOpt = opt.slice(i + 1)
+            if(restOpt.find(el => el === '-c')) return { error: `Duplicate param '-c'`}
+            config = opt[i + 1]
+        }
+        if(opt[i] === '-i') {
+            const restOpt = opt.slice(i + 1)
+            if(restOpt.find(el => el === '-i')) return { error: `Duplicate param '-i'`}
+            input = opt[i + 1]
+        }
+        if(opt[i] === '-o') {
+            const restOpt = opt.slice(i + 1)
+            if(restOpt.find(el => el === '-o')) return { error: `Duplicate param '-o'`}
+            output = opt[i + 1]
+        }
     }
-     
-    return { config, input, otput }
+
+    return { config, input, output }
 }
 
 const validateConfig = (config) => {
@@ -31,7 +56,7 @@ const validateConfig = (config) => {
         const cypher = el.split('')
         
         if (el[0] === 'C' || el[0] === 'R') {
-            checkSecondParam(cypher[1], el)
+            (cypher[2]) ? err.push(`'${el}' is wrong type of cipher code`) : checkSecondParam(cypher[1], el)
         } else if (cypher[0] === 'A') {
             if (cypher[1]) err.push(`'${cypher[0]}' code must not have direction argument`)
         } else {
