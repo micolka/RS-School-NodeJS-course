@@ -20,19 +20,19 @@ const getParams = (argv) => {
     let output = undefined
 
     for (let i = 0; i < opt.length; i++) {
-        if(opt[i] === '-c') {
+        if(opt[i] === '-c' || opt[i] === '--config') {
             const restOpt = opt.slice(i + 1)
-            if(restOpt.find(el => el === '-c')) return { error: `Duplicate param '-c'`}
+            if(restOpt.find(el => el === '-c' || el === '--config')) return { error: `Duplicate param '--config'`}
             config = opt[i + 1]
         }
-        if(opt[i] === '-i') {
+        if(opt[i] === '-i' || opt[i] === '--input') {
             const restOpt = opt.slice(i + 1)
-            if(restOpt.find(el => el === '-i')) return { error: `Duplicate param '-i'`}
+            if(restOpt.find(el => el === '-i' || el === '--input')) return { error: `Duplicate param '--input'`}
             input = opt[i + 1]
         }
-        if(opt[i] === '-o') {
+        if(opt[i] === '-o' || opt[i] === '--output') {
             const restOpt = opt.slice(i + 1)
-            if(restOpt.find(el => el === '-o')) return { error: `Duplicate param '-o'`}
+            if(restOpt.find(el => el === '-o' || el === '--output')) return { error: `Duplicate param '--output'`}
             output = opt[i + 1]
         }
     }
