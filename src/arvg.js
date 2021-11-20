@@ -11,6 +11,8 @@ const getAppOptions = (argv) => {
 
 const getParams = (argv) => {
 
+    console.log(argv);
+
     if (argv.length < 3) return { error: 'No params provided!'}
 
     const opt = argv.slice(2)
@@ -69,4 +71,4 @@ const validateConfig = (config) => {
     return { config };
 }
 
-module.exports = { getAppOptions };
+module.exports = { getAppOptions, validateConfig, getParams };
