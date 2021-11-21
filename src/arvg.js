@@ -69,4 +69,4 @@ const validateConfig = (config) => {
     return { config };
 }
 
-module.exports = { getAppOptions };
+module.exports = { getAppOptions, validateConfig, getParams };
