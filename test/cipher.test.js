@@ -50,14 +50,21 @@ describe('main cipher fuction:', () => {
   const output = './output.txt'
   
 
-  test('stdin if no input', () => {
-    const mockErrHandler = jest.fn(fs.createReadStream).mockImplementation(() => {})
-  
-    applyCipherSequence(config, input, output)
-    // expect(mockErrHandler.mock.calls.length).toBe(1)
-    console.log(mockErrHandler());
+  test('stdin if no input', async (done) => {
+    const obj = {fn: handleDirError}
+    const mockHandleDirError = jest.spyOn(obj, 'handleDirError')
 
-    mockErrHandler.mockRestore()
+    try {
+      await applyCipherSequence(config, './test/input.txt', output)
+      expect(handleDirError).toHaveBeenCalledTimes(1);
+      done()
+    } catch (e) {
+      done.fail(e)
+    } finally {
+      handleDirError.mockRestore()
+
+    }
+
   })
 
 })

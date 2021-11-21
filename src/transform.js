@@ -1,7 +1,7 @@
 const { Transform } = require('stream');
 
 class CypherStream extends Transform {  
-    #resultString = ''
+    resultString = ''
     #lowerCaseAlphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     #upperCaseAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
@@ -12,7 +12,7 @@ class CypherStream extends Transform {
 
     _transform(chunk, encoding, callback) {
       try {
-        this.#resultString = `${chunk.toString('utf8')}`;
+        this.resultString = `${chunk.toString('utf8')}`;
         
         switch(this.param) {
             case 'C1':
@@ -34,7 +34,7 @@ class CypherStream extends Transform {
             }
         }
 
-        callback(null, this.#resultString);
+        callback(null, this.resultString);
       } catch (err) {
         callback(err);
       }
@@ -42,8 +42,8 @@ class CypherStream extends Transform {
 
     caesarCipher(shift = 1) {
 
-        const input = this.#resultString.split('')
-        this.#resultString = input.map((el) => {
+        const input = this.resultString.split('')
+        this.resultString = input.map((el) => {
 
             const lower = this.#lowerCaseAlphabet.indexOf(el)
             const upper = this.#upperCaseAlphabet.indexOf(el)
@@ -56,8 +56,8 @@ class CypherStream extends Transform {
     }
 
     atbashCipher() {
-        const input = this.#resultString.split('')
-        this.#resultString = input.map((el) => {
+        const input = this.resultString.split('')
+        this.resultString = input.map((el) => {
 
             const lower = this.#lowerCaseAlphabet.indexOf(el)
             const upper = this.#upperCaseAlphabet.indexOf(el)
