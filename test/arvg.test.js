@@ -1,4 +1,3 @@
-const { expect, test, describe } = require('@jest/globals');
 const { getParams, getAppOptions, validateConfig } = require('../src/arvg')
 
 describe('Config vaidation:', () => {
@@ -89,5 +88,3 @@ describe('Getting params:', () => {
   })
     
 })
-
-//C1-R1-C0-C0-A-R0-R1-R1-A-C1

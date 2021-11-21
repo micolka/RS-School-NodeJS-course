@@ -3,11 +3,11 @@ const { CypherStream } = require('./transform')
 
 const applyCipherSequence = (config, input, output) => {
     let readableStream = input 
-        ? fs.createReadStream(input, "utf8").on('error', (err) =>  handleDirError(err, input)) 
+        ? fs.createReadStream(input, "utf8").on('error', (err) =>  handleDirError(err)) 
         : process.stdin
 
     let writeableStream = output 
-        ? fs.createWriteStream(output, { flags: 'a' }).on('error', (err) => handleDirError(err, output)) 
+        ? fs.createWriteStream(output, { flags: 'a' }).on('error', (err) => handleDirError(err)) 
         : process.stdout
      
     config.split('-').reduce((prev, stream)=> {
@@ -15,13 +15,13 @@ const applyCipherSequence = (config, input, output) => {
     }, readableStream).pipe(writeableStream)
 }
 
-const handleDirError = (err, path) => {
+const handleDirError = (err) => {
     if(err.code === 'ENOENT') {
-        console.error(`No such file or directory, open '${path}'`)
+        console.error(`No such file or directory, open '${err.path}'`)
     } else {
         console.error(err)
     }
     process.exit(9)
 }
 
-module.exports = { applyCipherSequence };
+module.exports = { applyCipherSequence, handleDirError };
