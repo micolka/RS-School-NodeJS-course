@@ -43,28 +43,3 @@ describe('No file/dir error handling:', () => {
     mockError.mockRestore()
   })
 })
-
-describe('main cipher fuction:', () => {
-  const config = 'C1-C1-R0-A'
-  const input = './input.txt'
-  const output = './output.txt'
-  
-
-  test('stdin if no input', async (done) => {
-    const obj = {fn: handleDirError}
-    const mockHandleDirError = jest.spyOn(obj, 'handleDirError')
-
-    try {
-      await applyCipherSequence(config, './test/input.txt', output)
-      expect(handleDirError).toHaveBeenCalledTimes(1);
-      done()
-    } catch (e) {
-      done.fail(e)
-    } finally {
-      handleDirError.mockRestore()
-
-    }
-
-  })
-
-})
